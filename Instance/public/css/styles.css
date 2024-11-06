@@ -1,0 +1,73 @@
+/* Fondo y estilo general */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Contenedor principal */
+.container {
+    background-color: #1a1a1a;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 204, 255, 0.5);
+    max-width: 600px;
+}
+
+/* Título principal */
+h1 {
+    font-size: 2.5rem;
+    color: #00ccff;
+    text-shadow: 0 0 10px #00ccff, 0 0 20px #00ccff, 0 0 30px #00ccff;
+}
+
+/* Tabla de información */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-dark {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+td {
+    padding: 15px;
+}
+
+td.fw-bold {
+    color: #00ccff;
+}
+
+/* Caja de hora */
+#time {
+    font-size: 3rem;
+    color: #00ccff;
+    background-color: #0d0d0d;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 0 15px #00ccff, 0 0 30px #00ccff, 0 0 45px rgba(0, 204, 255, 0.5);
+    display: inline-block;
+}
+
+/* Información de la instancia */
+#instance-id,
+#instance-ip,
+#instance-port {
+    color: #b3b3b3;
+}
+
+/* Efecto en hover para el tiempo */
+#time:hover {
+    box-shadow: 0 0 20px #00ccff, 0 0 40px #00ccff, 0 0 60px rgba(0, 204, 255, 0.7);
+    transition: box-shadow 0.3s ease-in-out;
+}

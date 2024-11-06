@@ -1,14 +1,15 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const WebSocket = require('ws');
+const path = require('path');
 
 const app = express();
-const port = process.env.INSTANCE_PORT || 3000;
 dotenv.config();
+const port = process.env.INSTANCE_PORT;
 
 let logicalTime = new Date();
-let logs = []; 
-const clients = new Set(); 
+let logs = [];
+const clients = new Set();
 
 function getFormattedTime() {
     const hours = String(logicalTime.getHours()).padStart(2, '0');
@@ -20,8 +21,8 @@ function getFormattedTime() {
 
 function logMessage(message) {
     const timestampedMessage = `[${new Date().toISOString()}] ${message}`;
-    console.log(timestampedMessage); 
-    logs.push(timestampedMessage); 
+    console.log(timestampedMessage);
+    logs.push(timestampedMessage);
 }
 
 function sendTimeToClients() {
@@ -38,6 +39,8 @@ setInterval(() => {
     sendTimeToClients();
 }, 1000);
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use((req, res, next) => {
     const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     logMessage(`${req.method} ${url}`);
@@ -45,7 +48,7 @@ app.use((req, res, next) => {
 });
 
 function applyRandomOffset() {
-    const offset = Math.floor(Math.random() * 121) - 60; 
+    const offset = Math.floor(Math.random() * 121) - 60;
     logicalTime.setSeconds(logicalTime.getSeconds() + offset);
     logMessage(`Applied offset: ${offset} seconds`);
 }
@@ -59,7 +62,7 @@ app.get('/time', (req, res) => {
 });
 
 app.post('/sync', express.json(), (req, res) => {
-    const { offset } = req.body; 
+    const { offset } = req.body;
 
     if (typeof offset === 'number') {
         logicalTime.setSeconds(logicalTime.getSeconds() + offset);
@@ -85,6 +88,6 @@ wss.on('connection', (ws) => {
 
     ws.on('close', () => {
         logMessage('Client disconnected');
-        clients.delete(ws); 
+        clients.delete(ws);
     });
 });
