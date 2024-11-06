@@ -61,6 +61,11 @@ app.get('/time', (req, res) => {
     res.json({ time: logicalTime });
 });
 
+app.get('/instance-info', (req, res) => {
+    const host = req.get('host');
+    res.json({host});
+});
+
 app.post('/sync', express.json(), (req, res) => {
     const { offset } = req.body;
 
