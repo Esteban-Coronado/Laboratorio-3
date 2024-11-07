@@ -22,3 +22,28 @@ fetch('/instance-info')
     .catch(error => {
         console.error('Error fetching instance info:', error);
     });
+    
+function fetchLogs() {
+    fetch('/logs')
+        .then(response => response.json())
+        .then(data => {
+            const logsTbody = document.getElementById('logs-tbody');
+            logsTbody.innerHTML = '';  
+
+            if (data.logs && Array.isArray(data.logs)) {
+                data.logs.forEach(log => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${log.split(']')[0] + ']'}</td>
+                        <td>${log.split('] ')[1]}</td>
+                    `;
+                    logsTbody.appendChild(row);
+                });
+            } else {
+                console.error('No logs found in the response.');
+            }
+        })
+        .catch(error => console.error('Error fetching logs:', error));
+}
+
+document.addEventListener('DOMContentLoaded', fetchLogs);

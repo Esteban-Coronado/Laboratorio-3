@@ -1,4 +1,3 @@
-
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #121212;
@@ -18,7 +17,6 @@ body {
     max-width: 600px;
 }
 
-
 h1 {
     font-size: 2.5rem;
     color: #00ccff;
@@ -30,21 +28,44 @@ table {
     margin-top: 20px;
     border-radius: 10px;
     overflow: hidden;
-}
-
-.table-dark {
     background-color: #1a1a1a;
-    color: #e0e0e0;
 }
 
-td {
+.table-bordered {
+    border: 1px solid #444444; 
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #1a1a1a; 
+}
+
+.table-striped tbody tr:nth-child(even) {
+    background-color: #2a2a2a; 
+}
+
+.table thead {
+    background-color: #1a1a1a; 
+    color: #ffffff; 
+}
+
+th, td {
     padding: 15px;
+    text-align: left;
+    color: #ffffff; 
+}
+
+th {
+    font-weight: bold;
+    color: #00ccff; 
 }
 
 td.fw-bold {
-    color: #00ccff;
+    color: #00ccff; 
 }
 
+td {
+    border-top: 1px solid #444444; 
+}
 
 #time {
     font-size: 3rem;
