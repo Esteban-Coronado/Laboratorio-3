@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const port = process.env.APP_PORT || 3000;
 const host = process.env.HOST;
-const username = "william";
+const username = "esteban";
 const password = process.env.PASSWORD;
 
 const conn = new Client();
@@ -42,8 +42,6 @@ function logMessage(message) {
   logs.push(timestampedMessage);
   broadcastLogs(timestampedMessage);
 }
-
-app.use(express.static('public')); 
 
 app.use((req, res, next) => {
   const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
@@ -127,7 +125,7 @@ async function getInstanceTimes() {
 }
 
 async function synchronizeClocks(req, res) {
-  const coordinatorTime = new Date(await getWorldTime());
+  const coordinatorTime = getWorldTime();
   const instanceTimes = await getInstanceTimes();
 
   const offsets = instanceTimes.map(({ host, port, time }) => {
@@ -155,6 +153,26 @@ app.post('/sync-clocks', synchronizeClocks);
 const server = app.listen(port, () => {
   logMessage(`Coordinator running at ${port}`);
 });
+
+async function getWorldTime() {
+  try {
+    const response = await axios.get('https://timeapi.io/api/time/current/zone?timeZone=America%2FBogota');
+    return response.data.dateTime;
+  } catch (error) {
+    logMessage(`Error fetching world time: ${error.message}`);
+    throw new Error('Error fetching world time');
+  }
+}
+
+app.get('/worldtime', async (req, res) => {
+  try {
+    const datetime = await getWorldTime();
+    res.json({ datetime });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 
 server.on('upgrade', (request, socket, head) => {
   wss.handleUpgrade(request, socket, head, (ws) => {
