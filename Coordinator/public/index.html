@@ -7,7 +7,6 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-
 <div class="container mt-5">
   <h1 class="text-center">Coordinator Control Panel</h1>
   <div class="row my-3">
@@ -22,38 +21,12 @@
     <h5>Logs:</h5>
     <pre id="logs-container" class="pre-scrollable"></pre>
   </div>
+  <div class="instances border p-3 mt-3 bg-white">
+    <h5>Instances:</h5>
+    <ul id="instance-list" class="list-unstyled"></ul>
+  </div>
 </div>
 
-<script>
-  const logsContainer = document.getElementById('logs-container');
-  const ws = new WebSocket(`ws://${location.host}`);
-
-  ws.onmessage = (event) => {
-    const message = JSON.parse(event.data).log;
-    logsContainer.textContent += message + '\\n';
-    logsContainer.scrollTop = logsContainer.scrollHeight;
-  };
-
-  document.getElementById('launch-instance').onclick = async () => {
-    try {
-      const response = await fetch('/launch', { method: 'POST' });
-      const text = await response.text();
-      logsContainer.textContent += text + '\\n';
-    } catch (error) {
-      console.error('Error launching instance:', error);
-    }
-  };
-
-  document.getElementById('sync-clocks').onclick = async () => {
-    try {
-      const response = await fetch('/sync-clocks', { method: 'POST' });
-      const result = await response.json();
-      logsContainer.textContent += result.message + '\\n';
-    } catch (error) {
-      console.error('Error synchronizing clocks:', error);
-    }
-  };
-</script>
-
+<script src="/app.js"></script>
 </body>
 </html>
