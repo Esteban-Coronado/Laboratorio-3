@@ -36,6 +36,8 @@ function broadcastLogs(log) {
   });
 }
 
+app.use(express.static('public')); 
+
 function logMessage(message) {
   const timestampedMessage = `[${new Date().toISOString()}] ${message}`;
   console.log(timestampedMessage);

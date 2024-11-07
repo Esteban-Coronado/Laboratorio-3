@@ -35,5 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('launch-instance').onclick = launchInstance;
   document.getElementById('sync-clocks').onclick = syncClocks;
-  updateInstances();
+  
+  updateInstances();  // Load instances on page load
 });

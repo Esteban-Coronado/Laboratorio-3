@@ -7,26 +7,26 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-<div class="container mt-5">
-  <h1 class="text-center">Coordinator Control Panel</h1>
-  <div class="row my-3">
-    <div class="col-md-6">
-      <button id="launch-instance" class="btn btn-primary btn-block">Launch Instance</button>
+  <div class="container mt-5">
+    <h1 class="text-center">Panel Coordinador</h1>
+    <div class="row my-3">
+      <div class="col-md-6">
+        <button id="launch-instance" class="btn btn-primary btn-block">Launch Instance</button>
+      </div>
+      <div class="col-md-6">
+        <button id="sync-clocks" class="btn btn-success btn-block">Synchronize Clocks</button>
+      </div>
     </div>
-    <div class="col-md-6">
-      <button id="sync-clocks" class="btn btn-success btn-block">Synchronize Clocks</button>
+    <div class="logs border p-3 mt-3 bg-white">
+      <h5>Logs:</h5>
+      <pre id="logs-container" class="pre-scrollable"></pre>
+    </div>
+    <div class="instances border p-3 mt-3 bg-white">
+      <h5>Instances:</h5>
+      <ul id="instance-list" class="list-unstyled"></ul>
     </div>
   </div>
-  <div class="logs border p-3 mt-3 bg-white">
-    <h5>Logs:</h5>
-    <pre id="logs-container" class="pre-scrollable"></pre>
-  </div>
-  <div class="instances border p-3 mt-3 bg-white">
-    <h5>Instances:</h5>
-    <ul id="instance-list" class="list-unstyled"></ul>
-  </div>
-</div>
 
-<script src="/app.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>
