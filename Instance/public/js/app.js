@@ -46,4 +46,6 @@ function fetchLogs() {
         .catch(error => console.error('Error fetching logs:', error));
 }
 
+setInterval(fetchLogs, 5000);
+
 document.addEventListener('DOMContentLoaded', fetchLogs);

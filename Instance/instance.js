@@ -37,6 +37,7 @@ function sendTimeToClients() {
 setInterval(() => {
     logicalTime.setSeconds(logicalTime.getSeconds() + 1);
     sendTimeToClients();
+
 }, 1000);
 
 app.use(express.static(path.join(__dirname, 'public')));
