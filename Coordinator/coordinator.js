@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const port = process.env.APP_PORT || 3000;
 const host = process.env.HOST;
-const username = "esteban";
+const username = "andress";
 const password = process.env.PASSWORD;
 
 const conn = new Client();
@@ -125,7 +125,7 @@ async function getInstanceTimes() {
 }
 
 async function synchronizeClocks(req, res) {
-  const coordinatorTime = getWorldTime();
+  const coordinatorTime = await getWorldTime();
   const instanceTimes = await getInstanceTimes();
 
   const offsets = instanceTimes.map(({ host, port, time }) => {
@@ -157,7 +157,7 @@ const server = app.listen(port, () => {
 async function getWorldTime() {
   try {
     const response = await axios.get('https://timeapi.io/api/time/current/zone?timeZone=America%2FBogota');
-    return response.data.dateTime;
+    return new Date(response.data.dateTime);
   } catch (error) {
     logMessage(`Error fetching world time: ${error.message}`);
     throw new Error('Error fetching world time');
