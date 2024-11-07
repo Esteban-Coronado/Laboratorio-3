@@ -126,7 +126,6 @@ async function getInstanceTimes() {
 
 async function synchronizeClocks(req, res) {
   const coordinatorTime = getWorldTime();
-  //const coordinatorTime = new Date();
   const instanceTimes = await getInstanceTimes();
 
   const offsets = instanceTimes.map(({ host, port, time }) => {
@@ -155,20 +154,10 @@ const server = app.listen(port, () => {
   logMessage(`Coordinator running at ${port}`);
 });
 
-/*app.get('/worldtime', (req, res) => {
-  fetch('http://worldtimeapi.org/api/timezone/America/Bogota')
-    .then(response => response.json())
-    .then(data => res.json({ datetime: data.datetime }))
-    .catch(error => {
-      console.error('Error:', error);
-      res.status(500).send('Error fetching world time');
-    });
-});*/
-
 async function getWorldTime() {
   try {
-    const response = await axios.get('http://worldtimeapi.org/api/timezone/America/Bogota');
-    return response.data.datetime;
+    const response = await axios.get('https://timeapi.io/api/time/current/zone?timeZone=America%2FBogota');
+    return response.data.dateTime;
   } catch (error) {
     logMessage(`Error fetching world time: ${error.message}`);
     throw new Error('Error fetching world time');
@@ -183,6 +172,7 @@ app.get('/worldtime', async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
 
 server.on('upgrade', (request, socket, head) => {
   wss.handleUpgrade(request, socket, head, (ws) => {
