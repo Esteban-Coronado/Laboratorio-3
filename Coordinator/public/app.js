@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logsContainer = document.getElementById('logs-container');
   const instanceList = document.getElementById('instance-list');
+  const clockDisplay = document.getElementById('clock');
   const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const ws = new WebSocket(`${wsProtocol}://${location.host}`);
 
@@ -29,6 +30,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }  
 
+  async function updateClock() {
+    try {
+      const response = await fetch('/worldtime');
+      if (response.ok) {
+        const data = await response.json();
+        const datetime = new Date(data.datetime);
+        const formattedTime = datetime.toLocaleTimeString('en-GB', { hour12: false });
+        clockDisplay.textContent = formattedTime;
+      } else {
+        clockDisplay.textContent = 'Error al obtener la hora';
+        console.error('Error al hacer fetch:', response.statusText);
+      }
+    } catch (error) {
+      clockDisplay.textContent = 'Error al obtener la hora';
+      console.error('Error de conexión:', error);
+    }
+  }
+
   async function launchInstance() {
     const response = await fetch('/launch', { method: 'POST' });
     logsContainer.textContent += await response.text() + '\n';
@@ -44,5 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('launch-instance').onclick = launchInstance;
   document.getElementById('sync-clocks').onclick = syncClocks;
   
-  updateInstances();  // Load instances on page load
+  updateInstances(); 
+  updateClock();
+  setInterval(updateClock, 50000);
 });
